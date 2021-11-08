@@ -9,17 +9,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import springMVCHibernate.config.TestPersistenceConfig;
-import springMVCHibernate.model.Role;
 import springMVCHibernate.model.User;
 import springMVCHibernate.repository.UserRepository;
-import springMVCHibernate.service.UserService;
+import springMVCHibernate.service.user.UserService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @DirtiesContext
 @RunWith(SpringJUnit4ClassRunner.class)

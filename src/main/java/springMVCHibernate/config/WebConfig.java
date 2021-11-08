@@ -49,10 +49,4 @@ public class WebConfig implements WebMvcConfigurer {
         thymeleafViewResolver.setCharacterEncoding("utf-8");
         registry.viewResolver(thymeleafViewResolver);
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
-    }
 }

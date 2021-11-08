@@ -1,4 +1,4 @@
-package springMVCHibernate.service;
+package springMVCHibernate.service.user;
 
 import springMVCHibernate.model.Role;
 import springMVCHibernate.model.User;
