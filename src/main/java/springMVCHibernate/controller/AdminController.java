@@ -2,8 +2,8 @@ package springMVCHibernate.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,46 +39,39 @@ public class AdminController {
         modelMap.addAttribute("admin_role", ROLE_ADMIN);
         modelMap.addAttribute("user_role", ROLE_USER);
         modelAndView.addAllObjects(modelMap);
-        modelAndView.setViewName("index");
+        modelAndView.setViewName("adminPage");
         return modelAndView;
     }
 
     @PostMapping("/addUser")
-    public String addUser(@ModelAttribute("newUser") User newUser) {
+    public String addUser(@ModelAttribute("newUser") User newUser,
+                          @RequestParam(value = "action", required = true) String action) {
         String userName = new String(newUser.getUsername().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String userSurname = new String(newUser.getSurname().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         Set<Role> roles = new HashSet<>();
         roles.add(ROLE_USER);
-        newUser.setRoles(roles);
-        userServiceImpl.addByAdmin(userName, userSurname, newUser.getBirthdate(), newUser.getPassword(), newUser.getRoles());
+        if(action.equals("addAdmin")){
+            roles.add(ROLE_ADMIN);
+        }
+        userServiceImpl.addByAdmin(userName, userSurname, newUser.getBirthdate(), newUser.getPassword(), roles);
         return "redirect:/admin";
     }
 
     @PutMapping("/updateUser/{id}")
     @PreAuthorize("hasRole('ROLE_USER') and #user.id == {id} or hasRole('ROLE_ADMIN')")
+    @Transactional
     public String updateUser(@ModelAttribute("user") User user,
                              @PathVariable("id") long id) {
         String userName = new String(user.getUsername().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String userSurname = new String(user.getSurname().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-        userServiceImpl.update(id, userName, userSurname, user.getBirthdate(), user.getPassword(), user.getRoles());
+        User updateUser = userServiceImpl.read(id);
+        userServiceImpl.update(id, userName, userSurname, user.getBirthdate(), user.getPassword(), updateUser.getRoles());
         return "redirect:/admin";
     }
 
     @DeleteMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         userServiceImpl.delete(id);
-        return "redirect:/admin";
-    }
-
-    @PutMapping("/userOrAdmin")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String formUserToAdminAndReturn(@ModelAttribute("user") User user){
-        boolean makeAdmin = false;
-        if(makeAdmin && !user.getRoles().contains(ROLE_ADMIN)){
-            user.getRoles().add(ROLE_ADMIN);
-        } else {
-            user.getRoles().remove(ROLE_ADMIN);
-        }
         return "redirect:/admin";
     }
 }

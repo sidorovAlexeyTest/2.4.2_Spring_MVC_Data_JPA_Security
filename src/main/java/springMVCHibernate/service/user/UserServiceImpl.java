@@ -2,6 +2,7 @@ package springMVCHibernate.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import springMVCHibernate.model.Role;
 import springMVCHibernate.repository.UserRepository;
 import springMVCHibernate.model.User;

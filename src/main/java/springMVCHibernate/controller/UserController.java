@@ -3,8 +3,11 @@ package springMVCHibernate.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import springMVCHibernate.model.User;
 import springMVCHibernate.service.user.UserService;
 
@@ -15,10 +18,9 @@ public class UserController {
     @Autowired
     private UserService userServiceImpl;
 
-    @RequestMapping("/{username}")
-    public String getUserHome(@PathVariable(name = "username") String username, Model model){
-        User user = userServiceImpl.findUserByName(username);
-        model.addAttribute("user", user);
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public String getUserHome(@ModelAttribute("user") User user, @PathVariable(name = "username") String username){
+        user = userServiceImpl.findUserByName(username);
         return "userPage";
     }
 }
