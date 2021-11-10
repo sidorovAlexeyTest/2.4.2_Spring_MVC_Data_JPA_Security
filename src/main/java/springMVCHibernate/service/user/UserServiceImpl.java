@@ -2,7 +2,6 @@ package springMVCHibernate.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import springMVCHibernate.model.Role;
 import springMVCHibernate.repository.UserRepository;
 import springMVCHibernate.model.User;
@@ -15,8 +14,12 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User addByAdmin(String name, String surname, Date birthdate, String password, Set<Role> roles) {

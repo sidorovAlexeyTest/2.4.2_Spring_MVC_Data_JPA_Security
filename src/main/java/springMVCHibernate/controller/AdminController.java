@@ -1,6 +1,7 @@
 package springMVCHibernate.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Secured("ROLE_ADMIN")
 @Controller
 @RequestMapping(path = "/admin")
 public class AdminController {
@@ -33,6 +35,7 @@ public class AdminController {
     }
 
     @RequestMapping()
+    @Transactional
     public ModelAndView getHomePage(ModelAndView modelAndView, ModelMap modelMap) {
         List<User> userList = userServiceImpl.readAll();
         modelMap.addAttribute("userList", userList);
@@ -58,7 +61,7 @@ public class AdminController {
     }
 
     @PutMapping("/updateUser/{id}")
-    @PreAuthorize("hasRole('ROLE_USER') and #user.id == {id} or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public String updateUser(@ModelAttribute("user") User user,
                              @PathVariable("id") long id) {

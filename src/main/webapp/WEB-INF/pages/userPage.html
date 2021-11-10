@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru" >
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>User</title>
@@ -10,41 +10,26 @@
     <input type="submit" value="LogOut">
 </form>
 <br/>
+<br/>
 <table border="1">
     <tr>
         <td>Id</td>
         <td>Name</td>
         <td>Surname</td>
         <td>Birthdate</td>
+        <td>Password</td>
     </tr>
-        <tr>
-            <form data-th-object="${user}" action="#" th:action="@{/updateUser/{username}(username=${user.getUsername()})}" th:method="GET">
-                <td>...</td>
-                <td><input type="text" name="name" th:value="${user.getUsername()}"/></td>
-                <td><input type="text" name="surname" th:value="${user.getSurname}"/></td>
-                <td><input type="date" name="birthdate" th:value="${user.getBirthdate()}"/></td>
-                <td><input type="submit" value="update" id="updateButton"></td>
-            </form>
-        </tr>
+    <tr>
+        <form data-th-object="${user}" action="#" th:action="@{/user/{username}(username=${user.getUsername()})}"
+              th:method="PUT">
+            <td><input type="text" name="id" th:value="${user.getId()}" disabled></td>
+            <td><input type="text" name="name" th:value="${user.getUsername()}"/></td>
+            <td><input type="text" name="surname" th:value="${user.getSurname}"/></td>
+            <td><input type="date" name="birthdate" th:value="${user.getBirthdate()}"/></td>
+            <td><input type="text" name="password" th:value="${user.getPassword()}"/></td>
+            <td><input type="submit" value="update" id="updateButton"></td>
+        </form>
+    </tr>
 </table>
-<!--<form action="#" th:object="${user}" th:action="@{/updateUser/{id}(id=${user.getId()})}" th:method="PUT">-->
-<!--    <div>-->
-<!--        <input type="text" value="*{surname}"/>-->
-<!--        <input type="text" th:field="*{name}" value="*{name}"/>-->
-<!--        <input type="date" th:field="*{birthdate}"/>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <button type="submit">Добавить в корзину</button>-->
-<!--    </div>-->
-<!--</form>-->
-<!--<div th:object = "${user}" class="box">-->
-<!--    <p><b>Name:</b> <span th:text="${user.getName()}"></span></p>-->
-<!--    <p><b>Surname:</b> <span th:text="*{surname}"></span></p>-->
-<!--</div>-->
-<!--<br/>-->
-<!--<p th:text="${user.getUsername()}"></p>-->
-<!--<form>-->
-<!--    <p>Name is: <input type="text" value="John" th:value="${user.name}" name="name"></p>-->
-<!--</form>-->
 </body>
 </html>
