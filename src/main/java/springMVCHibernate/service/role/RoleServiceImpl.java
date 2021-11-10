@@ -21,4 +21,9 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> readAll() {
         return roleRepository.findAll();
     }
+
+    @Override
+    public void addRole(Role role) {
+        roleRepository.saveAndFlush(role);
+    }
 }

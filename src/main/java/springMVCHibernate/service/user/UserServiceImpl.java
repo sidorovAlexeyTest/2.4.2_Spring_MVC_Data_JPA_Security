@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User addByUser(String name, String surname, Date birthdate, String password) {
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role("USER"));
+        roles.add(new Role("ROLE_USER"));
         return userRepository.saveAndFlush(new User(0L, name, surname, birthdate, password, roles));
     }
 

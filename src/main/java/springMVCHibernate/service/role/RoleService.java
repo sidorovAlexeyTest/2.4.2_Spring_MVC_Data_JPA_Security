@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface RoleService {
     List<Role> readAll();
+    void addRole(Role role);
 }
